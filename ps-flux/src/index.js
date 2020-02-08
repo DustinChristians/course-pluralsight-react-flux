@@ -13,10 +13,11 @@ import React from 'react';
 import { render } from 'react-dom';
 // We want to render the HomePage so we'll import that as well
 import HomePage from './components/HomePage';
+import AboutPage from './components/AboutPage';
 
 // Render accepts two arguments, the component we want to render and the DOM element
 // where we want to place our application. To determine where we want to render we can
 // open up index.html where we'll find a div with an id of "root" which is where we'll
 // mount the application.
 // JSX supports self-closing tags like HTML
-render(<HomePage />, document.getElementById('root'));
+render(<AboutPage />, document.getElementById('root'));
