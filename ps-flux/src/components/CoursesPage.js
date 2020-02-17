@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { getCourses } from '../api/courseApi';
+import CourseList from './CourseList';
 
+// Note that this component is simple. It's focused on state concerns.
+// It makes an API call, populates state and passes that state down to the
+// course list. This can be thought of as separation between smart components
+// and dumb components.
 function CoursesPage() {
   const [courses, setCourses] = useState([]);
 
@@ -19,26 +24,8 @@ function CoursesPage() {
   return (
     <>
       <h2>Courses</h2>
-      <table className='table'>
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Author ID</th>
-            <th>Category</th>
-          </tr>
-        </thead>
-        <tbody>
-          {courses.map(course => {
-            return (
-              <tr key={course.id}>
-                <td>{course.title}</td>
-                <td>{course.authorId}</td>
-                <td>{course.category}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      {/* CourseList is the dumb component which does nothing but define some markup */}
+      <CourseList courses={courses} />
     </>
   );
 }
