@@ -5,19 +5,18 @@ import HomePage from './HomePage';
 import AboutPage from './AboutPage';
 import Header from './common/Header';
 import CoursesPage from './CoursesPage';
+import { Route } from 'react-router-dom';
 
 function App() {
-  function getPage() {
-    // window.location is built into all browsers
-    const route = window.location.pathname;
-    if (route === '/courses') return <CoursesPage />;
-    if (route === '/about') return <AboutPage />;
-    return <HomePage />;
-  }
   return (
     <div className='container-fluid'>
       <Header />
-      {getPage()}
+      {/* The "exact" syntax here says that this route should only match
+      if the URL is exactly "/". We need to do this or the "/courses" route
+      will render the HomePage component and the CoursesPage component. */}
+      <Route path='/' exact component={HomePage} />
+      <Route path='/courses' component={CoursesPage} />
+      <Route path='/about' component={AboutPage} />
     </div>
   );
 }
