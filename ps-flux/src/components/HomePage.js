@@ -2,6 +2,7 @@
 // This lines says import an NPM package named 'react' and store it in a variable
 // called 'React'
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 // Using functional component instead of a class component.
 // Function names should begin with a capital letter which is important for 2 reasons.
@@ -15,7 +16,9 @@ function HomePage() {
     <div className='jumbotron'>
       <h1>Pluralsight Administration</h1>
       <p>React, Flux, and react Router for ultra-responsive web apps.</p>
-      <a href='/about'>About</a>
+      <Link to='about' class='btn btn-primary'>
+        About
+      </Link>
     </div>
   );
 }
