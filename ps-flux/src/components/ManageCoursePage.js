@@ -4,6 +4,7 @@ import * as courseApi from "../api/courseApi";
 import Toast, { toast } from "react-toastify";
 
 const ManageCoursePage = props => {
+  const [errors, setErrors] = useState({});
   // This is array destructuring
   const [course, setCourse] = useState({
     // useState accepts a default value so it is being set to an empty course object
@@ -35,6 +36,20 @@ const ManageCoursePage = props => {
     setCourse(updatedCourse);
   }
 
+  function formIsValid() {
+    // Storing objects as an object instead of an array makes referencing errors easier in
+    // the form
+    const _errors = {};
+
+    if (!course.title) _errors.title = "Title is required";
+    if (!course.authorId) _errors.authorId = "Author is required";
+    if (!course.category) _errors.category = "Category is required";
+
+    setErrors(_errors);
+    // The form is vlaid if the errors object has no properties
+    return Object.keys(_errors).length === 0;
+  }
+
   // The above method could be written like this, using destructuring
   // to pull target off of event.
   // function handleChange({ target }) {
@@ -46,6 +61,7 @@ const ManageCoursePage = props => {
 
   function handleSubmit(event) {
     event.preventDefault();
+    if (!formIsValid()) return;
     courseApi.saveCourse(course).then(() => {
       // Redirects to the courses page after the course has been saved
       props.history.push("/courses");
@@ -57,6 +73,7 @@ const ManageCoursePage = props => {
     <>
       <h2>Manage Course</h2>
       <CourseForm
+        errors={errors}
         course={course}
         onChange={handleChange}
         onSubmit={handleSubmit}

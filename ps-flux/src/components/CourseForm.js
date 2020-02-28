@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import TextInput from "./common/TextInput";
 
 function CourseForm(props) {
@@ -15,6 +16,8 @@ function CourseForm(props) {
         // Every character that is typed is sent to the onTitleChange handler.
         onChange={props.onChange}
         value={props.course.title}
+        // It is much easier to pass the errors around as an object like this intstead of an array
+        error={props.errors.title}
       />
 
       <div className="form-group">
@@ -33,6 +36,9 @@ function CourseForm(props) {
             <option value="2">Scott Allen</option>
           </select>
         </div>
+        {props.errors.authorId && (
+          <div className="alert alert-danger">{props.errors.authorId}</div>
+        )}
       </div>
 
       <TextInput
@@ -41,11 +47,19 @@ function CourseForm(props) {
         name="category"
         onChange={props.onChange}
         value={props.course.category}
+        error={props.errors.category}
       />
 
       <input type="submit" value="Save" className="btn btn-primary" />
     </form>
   );
 }
+
+CourseForm.propTypes = {
+  course: PropTypes.object.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired
+};
 
 export default CourseForm;
