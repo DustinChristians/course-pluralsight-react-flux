@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { getCourses } from '../api/courseApi';
-import CourseList from './CourseList';
+import React, { useState, useEffect } from "react";
+import { getCourses } from "../api/courseApi";
+import CourseList from "./CourseList";
+import { Link } from "react-router-dom";
 
 // Note that this component is simple. It's focused on state concerns.
 // It makes an API call, populates state and passes that state down to the
@@ -24,6 +25,9 @@ function CoursesPage() {
   return (
     <>
       <h2>Courses</h2>
+      <Link className="btn btn-primary" to="/course">
+        Add Course
+      </Link>
       {/* CourseList is the dumb component which does nothing but define some markup */}
       <CourseList courses={courses} />
     </>
