@@ -3,7 +3,10 @@ import TextInput from "./common/TextInput";
 
 function CourseForm(props) {
   return (
-    <form>
+    //   We put the onSubmit handler on the form instead of the submit button because this
+    //   is better for accessibility. If the user clicks the "enter" button or the submit
+    //   button the form will be submitted.
+    <form onSubmit={props.onSubmit}>
       <TextInput
         id="title"
         label="Title"
