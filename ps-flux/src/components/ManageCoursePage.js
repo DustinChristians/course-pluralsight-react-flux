@@ -45,7 +45,10 @@ const ManageCoursePage = props => {
 
   function handleSubmit(event) {
     event.preventDefault();
-    courseApi.saveCourse(course);
+    courseApi.saveCourse(course).then(() => {
+      // Redirects to the courses page after the course has been saved
+      props.history.push("/courses");
+    });
   }
 
   return (
