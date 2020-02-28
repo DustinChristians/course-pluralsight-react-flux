@@ -8,10 +8,15 @@ import CoursesPage from "./CoursesPage";
 import { Route, Switch, Redirect } from "react-router-dom";
 import NotFoundPage from "./NotFoundPage";
 import ManageCoursePage from "./ManageCoursePage";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
     <div className="container-fluid">
+      {/* When using a boolean as a prop to a component we don't need to set it true,
+      because the existence of the property ensures truthiness */}
+      <ToastContainer autoClose={3000} hideProgressBar />
       <Header />
       {/* The "exact" syntax here says that this route should only match
       if the URL is exactly "/". We need to do this or the "/courses" route

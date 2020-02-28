@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import CourseForm from "./CourseForm";
 import * as courseApi from "../api/courseApi";
+import Toast, { toast } from "react-toastify";
 
 const ManageCoursePage = props => {
   // This is array destructuring
@@ -48,6 +49,7 @@ const ManageCoursePage = props => {
     courseApi.saveCourse(course).then(() => {
       // Redirects to the courses page after the course has been saved
       props.history.push("/courses");
+      toast.success("Course saved");
     });
   }
 
