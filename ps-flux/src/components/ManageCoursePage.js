@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CourseForm from "./CourseForm";
 import * as courseApi from "../api/courseApi";
 import Toast, { toast } from "react-toastify";
@@ -14,6 +14,23 @@ const ManageCoursePage = props => {
     authorId: null,
     category: ""
   });
+
+  useEffect(() => {
+    // from the path `/courses/:slug` in app.js.  We need to use the name `slug`
+    // here because that is the name of the path parameter. If the path was
+    // `/courses/:id` then we would use props.match.params.id here instead
+    const slug = props.match.params.slug;
+    if (slug) {
+      // If there is a slug in the URL then make an API call to get the
+      // course by that slug and set the course state variable to the
+      // returned course using the setCourse method
+      courseApi.getCourseBySlug(slug).then(_course => setCourse(_course));
+    }
+  }, [props.match.params.slug]); // <-- specifies that if the slug changes in the URL
+  // then useEffect should re-run. Use-effect will re-run everytime react re-renders
+  // so it's important to declare a dependency array because anytime any state or props
+  // change useEffect will re-run and we only want this to happen if the dependencies
+  // in the dependency array change
 
   function handleChange(event) {
     // Don't do this. Don't set state directly. Treat state as immutable.
