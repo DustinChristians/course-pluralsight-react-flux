@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import CourseForm from './CourseForm';
-import Toast, { toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import courseStore from '../stores/courseStore';
 import * as courseActions from '../actions/courseActions';
 
 const ManageCoursePage = props => {
   const [errors, setErrors] = useState({});
+  const [courses, setCourses] = useState(courseStore.getCourses());
   // This is array destructuring
   const [course, setCourse] = useState({
     // useState accepts a default value so it is being set to an empty course object
@@ -17,21 +18,30 @@ const ManageCoursePage = props => {
   });
 
   useEffect(() => {
+    // Run onChange function when the Flux store changes
+    courseStore.addChangeListener(onChange);
     // from the path `/courses/:slug` in app.js.  We need to use the name `slug`
     // here because that is the name of the path parameter. If the path was
     // `/courses/:id` then we would use props.match.params.id here instead
     const slug = props.match.params.slug;
-    if (slug) {
+    if (courses.length === 0) {
+      courseActions.loadCourses();
+    } else if (slug) {
       // If there is a slug in the URL then make an API call to get the
       // course by that slug and set the course state variable to the
       // returned course using the setCourse method
       setCourse(courseStore.getCourseBySlug(slug));
     }
-  }, [props.match.params.slug]); // <-- specifies that if the slug changes in the URL
+    return () => courseStore.removeChangeListener(onChange);
+  }, [courses.length, props.match.params.slug]); // <-- specifies that if the slug changes in the URL
   // then useEffect should re-run. Use-effect will re-run every time react re-renders
   // so it's important to declare a dependency array because anytime any state or props
   // change useEffect will re-run and we only want this to happen if the dependencies
   // in the dependency array change
+
+  function onChange() {
+    setCourses(courseStore.getCourses());
+  }
 
   function handleChange(event) {
     // Don't do this. Don't set state directly. Treat state as immutable.

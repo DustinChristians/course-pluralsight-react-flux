@@ -36,7 +36,7 @@ class CourseStore extends EventEmitter {
   // views or stored procedures in a relational database that return a
   // specified subset of data.
   getCourseBySlug(slug) {
-    return _courses.find(course => course.slug == slug);
+    return _courses.find(course => course.slug === slug);
   }
 }
 
@@ -56,7 +56,17 @@ Dispatcher.register(action => {
       // need to update the UI accordingly. More specifically, any stores
       // that ever called addChangeListener will then be notified anytime
       // that I call emit change.
-      store.emitChange();
+      store.emitChange(); // always need to call emitChange
+      break;
+    case actionTypes.UPDATE_COURSE:
+      _courses = _courses.map(course =>
+        course.id === action.course.id ? action.course : course
+      );
+      store.emitChange(); // always need to call emitChange
+      break;
+    case actionTypes.LOAD_COURSES:
+      _courses = action.courses;
+      store.emitChange(); // always need to call emitChange
       break;
     // Every store's dispatcher receives every action, so if the store
     // isn't interested in that action, there's nothing to do.
