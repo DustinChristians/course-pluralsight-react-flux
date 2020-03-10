@@ -4,7 +4,7 @@ import actionTypes from './actionTypes';
 
 // This entire function is the action creator.
 export function saveCourse(course) {
-  courseApi.saveCourse(course).then(savedCourse => {
+  return courseApi.saveCourse(course).then(savedCourse => {
     // use a return here to return the result fo the promise so that the caller
     // will be notified when the promise resolves
     return dispatcher.dispatch({

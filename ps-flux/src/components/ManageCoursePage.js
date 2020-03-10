@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
-import CourseForm from "./CourseForm";
-import * as courseApi from "../api/courseApi";
-import Toast, { toast } from "react-toastify";
+import React, { useState, useEffect } from 'react';
+import CourseForm from './CourseForm';
+import Toast, { toast } from 'react-toastify';
+import courseStore from '../stores/courseStore';
+import * as courseActions from '../actions/courseActions';
 
 const ManageCoursePage = props => {
   const [errors, setErrors] = useState({});
@@ -9,10 +10,10 @@ const ManageCoursePage = props => {
   const [course, setCourse] = useState({
     // useState accepts a default value so it is being set to an empty course object
     id: null,
-    slug: "",
-    title: "",
+    slug: '',
+    title: '',
     authorId: null,
-    category: ""
+    category: ''
   });
 
   useEffect(() => {
@@ -24,10 +25,10 @@ const ManageCoursePage = props => {
       // If there is a slug in the URL then make an API call to get the
       // course by that slug and set the course state variable to the
       // returned course using the setCourse method
-      courseApi.getCourseBySlug(slug).then(_course => setCourse(_course));
+      setCourse(courseStore.getCourseBySlug(slug));
     }
   }, [props.match.params.slug]); // <-- specifies that if the slug changes in the URL
-  // then useEffect should re-run. Use-effect will re-run everytime react re-renders
+  // then useEffect should re-run. Use-effect will re-run every time react re-renders
   // so it's important to declare a dependency array because anytime any state or props
   // change useEffect will re-run and we only want this to happen if the dependencies
   // in the dependency array change
@@ -58,9 +59,9 @@ const ManageCoursePage = props => {
     // the form
     const _errors = {};
 
-    if (!course.title) _errors.title = "Title is required";
-    if (!course.authorId) _errors.authorId = "Author is required";
-    if (!course.category) _errors.category = "Category is required";
+    if (!course.title) _errors.title = 'Title is required';
+    if (!course.authorId) _errors.authorId = 'Author is required';
+    if (!course.category) _errors.category = 'Category is required';
 
     setErrors(_errors);
     // The form is vlaid if the errors object has no properties
@@ -79,10 +80,9 @@ const ManageCoursePage = props => {
   function handleSubmit(event) {
     event.preventDefault();
     if (!formIsValid()) return;
-    courseApi.saveCourse(course).then(() => {
-      // Redirects to the courses page after the course has been saved
-      props.history.push("/courses");
-      toast.success("Course saved");
+    courseActions.saveCourse(course).then(() => {
+      props.history.push('/courses'); // Redirects to the courses page after the course has been saved
+      toast.success('Course saved'); // Displays a little pop out message
     });
   }
 
