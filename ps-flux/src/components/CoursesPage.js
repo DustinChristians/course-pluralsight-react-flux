@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import courseStore from '../stores/courseStore';
 import CourseList from './CourseList';
 import { Link } from 'react-router-dom';
-import { loadCourses } from '../actions/courseActions';
+import { deleteCourse, loadCourses } from '../actions/courseActions';
 
 // Note that this component is simple. It's focused on state concerns.
 // It makes an API call, populates state and passes that state down to the
@@ -48,7 +48,10 @@ function CoursesPage() {
         Add Course
       </Link>
       {/* CourseList is the dumb component which does nothing but define some markup */}
-      <CourseList courses={courses} />
+      {/* We could get the courses within the CourseList component but then we'd be coupling it 
+      to the flux implementation and wouldn't be able to pass other lists to. So it wouldn't be as
+      reusable */}
+      <CourseList courses={courses} deleteCourse={deleteCourse} />
     </>
   );
 }

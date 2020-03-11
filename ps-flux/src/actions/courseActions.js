@@ -26,3 +26,16 @@ export function loadCourses() {
     });
   });
 }
+
+export function deleteCourse(id) {
+  return courseApi.deleteCourse(id).then(() => {
+    // use a return here to return the result of the promise so the caller
+    // will be notified when the promise resolves
+    return dispatcher.dispatch({
+      // dispatcher tells all the stores that a course was just created
+      // Anything inside this object is called the action
+      actionType: actionTypes.DELETE_COURSE, // actionType is the only required property
+      id: id
+    });
+  });
+}

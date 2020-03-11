@@ -68,6 +68,13 @@ Dispatcher.register(action => {
       _courses = action.courses;
       store.emitChange(); // always need to call emitChange
       break;
+    case actionTypes.DELETE_COURSE:
+      _courses = _courses.filter(
+        // id could be a string, so to be safe we pass into parseInt
+        course => course.id !== parseInt(action.id, 10)
+      );
+      store.emitChange(); // always need to call emitChange
+      break;
     // Every store's dispatcher receives every action, so if the store
     // isn't interested in that action, there's nothing to do.
     default:
